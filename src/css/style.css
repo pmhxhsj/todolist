@@ -1,0 +1,18 @@
+body {
+  text-align: center;
+  max-height: 60vh;
+}
+
+.list-form {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  text-align: center;
+
+  background-color: rgb(238, 238, 238);
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+}
