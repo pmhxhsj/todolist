@@ -33,6 +33,22 @@ const showToDoList = () => {
   $('#todo-input').value = '';
 };
 
+const updateToDoList = (e) => {
+  const listNameTarget = e.target.closest('li').querySelector('.list-name');
+  const updateListName = prompt(
+    'Please enter the to do list to be edited',
+    listNameTarget.innerText
+  );
+  listNameTarget.innerText = updateListName;
+};
+
+const removeToDoList = (e) => {
+  const listNameTarget = e.target.closest('li').querySelector('.list-name');
+  if (confirm('Are you sure you want to delete?')) {
+    e.target.closest('li').remove();
+  }
+};
+
 function App() {
   $('#input-button').addEventListener('click', () => {
     if ($('#todo-input').value === '') {
@@ -44,21 +60,11 @@ function App() {
 
   $('.to-do-list').addEventListener('click', (e) => {
     if (e.target.classList.contains('list-edit-button')) {
-      const listName = e.target
-        .closest('li')
-        .querySelector('.list-name').innerText;
-      const updateListName = prompt(
-        'Please enter the to do list to be edited',
-        listName
-      );
-      e.target.closest('li').querySelector('.list-name').innerText =
-        updateListName;
+      updateToDoList(e); // 리스트 수정 함수
     }
 
     if (e.target.classList.contains('list-delete-button')) {
-      if (confirm('Are you sure you want to delete?')) {
-        e.target.closest('li').remove();
-      }
+      removeToDoList(e); // 리스트 삭제 함수
     }
   });
 }
