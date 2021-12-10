@@ -3,7 +3,7 @@ const storage = {
     localStorage.setItem('list', JSON.stringify(list));
   },
   getLocalStorage() {
-    localStorage.getItem('list');
+    return JSON.parse(localStorage.getItem('list'));
   },
 };
 
