@@ -1,4 +1,6 @@
 import { ALERT_LIST } from './inputException.js';
+import { updateToDoList, removeToDoList } from './listEvent.js';
+import { storage } from './localStorage.js';
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -6,11 +8,21 @@ $('#input-form').addEventListener('submit', (e) => {
   e.preventDefault();
 });
 
-const showToDoList = () => {
-  const eachToDoList = $('#todo-input').value;
-  const toDoListTemplate = (eachToDoList) => `
-    <li class="to-do-list-item" style="list-style-type: decimal;">
-      <span class="list-name">${eachToDoList}</span>
+function App() {
+  this.list = [];
+  this.init = () => {
+    if (storage.getLocalStorage().length > 1) {
+      this.list = storage.getLocalStorage();
+    }
+    render();
+  };
+
+  const render = () => {
+    const toDoListTemplate = this.list
+      .map(
+        (ele, idx) => `
+    <li data-list-id="${idx}" class="to-do-list-item" style="list-style-type: decimal;">
+      <span class="list-name">${ele.name}</span>
       <button
         type="button"
         class="list-edit-button"
@@ -24,32 +36,20 @@ const showToDoList = () => {
         >
           delete
         </button>
-    </li>`;
-  $('.to-do-list').insertAdjacentHTML(
-    'beforeend',
-    toDoListTemplate(eachToDoList),
-  );
+    </li>`
+      )
+      .join('');
 
-  $('#todo-input').value = '';
-};
+    $('.to-do-list').innerHTML = toDoListTemplate;
+  };
+  const showToDoList = () => {
+    const eachToDoList = $('#todo-input').value;
+    this.list.push({ name: eachToDoList });
+    storage.setLocalStorage(this.list);
+    render();
+    $('#todo-input').value = '';
+  };
 
-const updateToDoList = (e) => {
-  const listNameTarget = e.target.closest('li').querySelector('.list-name');
-  const updateListName = prompt(
-    'Please enter the to do list to be edited',
-    listNameTarget.innerText
-  );
-  listNameTarget.innerText = updateListName;
-};
-
-const removeToDoList = (e) => {
-  const listNameTarget = e.target.closest('li').querySelector('.list-name');
-  if (confirm('Are you sure you want to delete?')) {
-    e.target.closest('li').remove();
-  }
-};
-
-function App() {
   $('#input-button').addEventListener('click', () => {
     if ($('#todo-input').value === '') {
       alert(ALERT_LIST.BLANK);
@@ -60,13 +60,23 @@ function App() {
 
   $('.to-do-list').addEventListener('click', (e) => {
     if (e.target.classList.contains('list-edit-button')) {
-      updateToDoList(e); // 리스트 수정 함수
+      const toDoListId = e.target.closest('li').dataset.listId;
+      updateToDoList(e, this.list); // 리스트 수정 함수
     }
 
     if (e.target.classList.contains('list-delete-button')) {
-      removeToDoList(e); // 리스트 삭제 함수
+      const toDoListId = e.target.closest('li').dataset.listId;
+      removeToDoList(e, this.list); // 리스트 삭제 함수
     }
   });
 }
 
-App();
+const app = new App();
+app.init();
+const a = [1, 2, 3, 4, 5];
+
+const b = a.filter((e) => {
+  if (e % 2 === 1) return e;
+});
+
+console.log(b);
