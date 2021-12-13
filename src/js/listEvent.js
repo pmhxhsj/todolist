@@ -5,7 +5,7 @@ const updateToDoList = (e, input) => {
   const listNameTarget = e.target.closest('li').querySelector('.list-name');
   const updateListName = prompt(
     'Please enter the to do list to be edited',
-    listNameTarget.innerText,
+    listNameTarget.innerText
   );
   input[toDoListId].name = updateListName;
   storage.setLocalStorage(input);
