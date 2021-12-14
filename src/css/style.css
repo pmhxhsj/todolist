@@ -12,6 +12,10 @@ body {
   background-color: rgb(238, 238, 238);
 }
 
+li {
+  list-style: decimal;
+}
+
 .App {
   display: flex;
   justify-content: center;
