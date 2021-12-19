@@ -1,6 +1,9 @@
 # to do list
 
 
+![todolist-gif](https://user-images.githubusercontent.com/72312559/146677051-0812d710-5ef6-494a-a54c-7e9d1cc3f009.gif)
+
+
 ### to do list
 
 ## 구현 요구사항
